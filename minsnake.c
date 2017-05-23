@@ -167,5 +167,6 @@ restartgame:
 exitgame:
     endwin();
     free(board);
+    free(snake);
     return EXIT_SUCCESS;
 }
