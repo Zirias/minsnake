@@ -1,0 +1,5 @@
+.*.swp
+.*.cfg
+/bin
+/obj
+
