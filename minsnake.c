@@ -10,10 +10,10 @@ enum item
 
 enum direction
 {
-    DIR_LEFT = 0,
+    DIR_RIGHT = 0,
     DIR_DOWN,
-    DIR_RIGHT,
-    DIR_UP
+    DIR_LEFT,
+    DIR_UP,
 };
 
 struct pos
@@ -39,6 +39,7 @@ int main(void)
     initscr();
     cbreak();
     noecho();
+    keypad(stdscr, 1);
     curs_set(0);
     timeout(80);
     getmaxyx(stdscr, rows, cols);
@@ -93,6 +94,18 @@ restartgame:
         case 'q':
         case 'Q':
             goto exitgame;
+        case KEY_LEFT:
+            dir = DIR_LEFT;
+            break;
+        case KEY_DOWN:
+            dir = DIR_DOWN;
+            break;
+        case KEY_RIGHT:
+            dir = DIR_RIGHT;
+            break;
+        case KEY_UP:
+            dir = DIR_UP;
+            break;
         }
 
         /* move snake
@@ -105,7 +118,7 @@ restartgame:
             : first - 1;
         switch (dir)
         {
-        case DIR_LEFT:
+        case DIR_RIGHT:
             next->col = first->col + 1;
             next->row = first->row;
             break;
@@ -113,7 +126,7 @@ restartgame:
             next->col = first->col;
             next->row = first->row + 1;
             break;
-        case DIR_RIGHT:
+        case DIR_LEFT:
             next->col = first->col - 1;
             next->row = first->row;
             break;
@@ -130,7 +143,7 @@ restartgame:
             // hit something, restart:
             free(board);
             free(snake);
-            dir = DIR_LEFT;
+            dir = DIR_RIGHT;
             growcounter = 10;
             goto restartgame;
         }
@@ -140,7 +153,7 @@ restartgame:
 
         if (!--growcounter)
         {
-            growcounter = 80;
+            growcounter = 25;
         }
         else
         {
